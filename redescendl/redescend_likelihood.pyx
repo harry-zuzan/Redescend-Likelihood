@@ -6,24 +6,17 @@ from libc.math cimport exp, sqrt
 from libc.math cimport M_PI
 
 
-
-
-
-#cdef numpy.ndarray[numpy.float64_t,ndim=2] redescend_residuals(
-def redescend_residuals_logistic(
+def redescend_residuals_logistic_2d(
 		numpy.ndarray[numpy.float64_t,ndim=2] resids, double cval):
+	return get_redescend_weights_logistic_2d(resids, cval)*resids
 
-	return get_redescend_weights_logistic(resids, cval)*resids
 
-
-def redescend_residuals_normal(
+def redescend_residuals_normal_2d(
 		numpy.ndarray[numpy.float64_t,ndim=2] resids, double cval):
+	return get_redescend_weights_normal_2d(resids, cval)*resids
 
-	return get_redescend_weights_normal(resids, cval)*resids
 
-
-#cdef numpy.ndarray[numpy.float64_t,ndim=2] get_redescend_weights(
-def get_redescend_weights_logistic(
+def get_redescend_weights_logistic_2d(
 		numpy.ndarray[numpy.float64_t,ndim=2] resids,double cval):
 
 	cdef double sval = resids.std()*sqrt(3.0)/M_PI
@@ -45,8 +38,7 @@ def get_redescend_weights_logistic(
 	return likelihood_weights
 
 
-#cdef numpy.ndarray[numpy.float64_t,ndim=2] get_redescend_weights(
-def get_redescend_weights_normal(
+def get_redescend_weights_normal_2d(
 		numpy.ndarray[numpy.float64_t,ndim=2] resids, double cval):
 
 	cdef double stdev = resids.std()
