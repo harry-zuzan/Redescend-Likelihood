@@ -7,14 +7,39 @@ from libc.math cimport M_PI
 
 # Using gaussian distributions
 
+def redescend_residuals_normal_3d(
+		numpy.ndarray[numpy.float64_t,ndim=3] resids, double cval):
+	return get_redescend_weights_normal_3d(resids, cval)*resids
+
 def redescend_residuals_normal_2d(
 		numpy.ndarray[numpy.float64_t,ndim=2] resids, double cval):
 	return get_redescend_weights_normal_2d(resids, cval)*resids
 
-
 def redescend_residuals_normal_1d(
-		numpy.ndarray[numpy.float64_t,ndim=2] resids, double cval):
+		numpy.ndarray[numpy.float64_t,ndim=1] resids, double cval):
 	return get_redescend_weights_normal_1d(resids, cval)*resids
+
+
+def get_redescend_weights_normal_3d(
+		numpy.ndarray[numpy.float64_t,ndim=3] resids, double cval):
+
+	cdef double stdev = resids.std()
+
+	cdef numpy.ndarray[numpy.float64_t,ndim=3] prob_vec1 = \
+			prob_normal_vec_3d(resids,stdev)
+
+	cdef numpy.ndarray[numpy.float64_t,ndim=2] prob_vec2 = \
+			prob_normal_vec_3d(resids,cval*stdev)
+
+	cdef numpy.ndarray[numpy.float64_t,ndim=3] likelihood_weights = \
+		prob_vec1/(prob_vec1 + prob_vec2)
+
+	cdef double prob1 = prob_normal_scalar(0.0, stdev)
+	cdef double prob2 = prob_normal_scalar(0.0, cval*stdev)
+
+	likelihood_weights /= prob1/(prob1 + prob2)
+
+	return likelihood_weights
 
 
 def get_redescend_weights_normal_2d(
@@ -61,6 +86,15 @@ def get_redescend_weights_normal_1d(
 
 	return likelihood_weights
 
+
+
+cdef numpy.ndarray[numpy.float64_t,ndim=3] \
+	prob_normal_vec_3d(numpy.ndarray[numpy.float64_t,ndim=3] vec, double s):
+
+	cdef numpy.ndarray[numpy.float64_t,ndim=3] prob_vec = \
+			numpy.exp(-0.5*(vec/s)**2)
+
+	return prob_vec/(s*sqrt(2.0*M_PI))
 
 
 cdef numpy.ndarray[numpy.float64_t,ndim=2] \
