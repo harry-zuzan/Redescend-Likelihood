@@ -8,6 +8,9 @@ from redescend_likelihood \
 	import redescend_residuals_normal_3d as redescend_normal3
 
 from redescend_likelihood \
+	import get_redescend_weights_normal_1d as get_weights_normal1
+
+from redescend_likelihood \
 	import get_redescend_weights_normal_2d as get_weights_normal2
 
 from redescend_likelihood \
