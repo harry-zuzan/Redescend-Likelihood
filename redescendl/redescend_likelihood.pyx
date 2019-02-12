@@ -28,7 +28,7 @@ def get_redescend_weights_normal_3d(
 	cdef numpy.ndarray[numpy.float64_t,ndim=3] prob_vec1 = \
 			prob_normal_vec_3d(resids,stdev)
 
-	cdef numpy.ndarray[numpy.float64_t,ndim=2] prob_vec2 = \
+	cdef numpy.ndarray[numpy.float64_t,ndim=3] prob_vec2 = \
 			prob_normal_vec_3d(resids,cval*stdev)
 
 	cdef numpy.ndarray[numpy.float64_t,ndim=3] likelihood_weights = \
