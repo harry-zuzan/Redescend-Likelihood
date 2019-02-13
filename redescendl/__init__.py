@@ -17,7 +17,7 @@ from .redescend_likelihood \
 	import get_redescend_weights_normal_2d as normal_weights2
 
 from .redescend_likelihood \
-	import get_redescend_weights_normal_3d as get_weights_normal3
+	import get_redescend_weights_normal_3d as normal_weights3
 
 from .redescend_likelihood \
 	import redescend_residuals_logistic_2d as redescend_logistic2
